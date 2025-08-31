@@ -23,7 +23,7 @@ WELCOME_TEXT = (
     "P.S. Unfortunately, payment is currently only available in Crypto. Write to me in DM if you have any ideas on how to accept payment by card. Thank you."
 )
 LOCAL_IMAGE_PATH = "assets/welcome.png"   # положи файл в репозиторий
-IMAGE_URL = ""                            # можно указать прямую ссылку на картинку
+IMAGE_URL = ""                            # или укажи прямую ссылку на картинку
 TELEGRAM_MAX_CAPTION = 1024
 
 # ====== INIT ======
@@ -31,15 +31,15 @@ bot = telebot.TeleBot(BOT_TOKEN, parse_mode=None)
 app = Flask(__name__)
 
 # ====== HELPERS ======
-def split_caption(text: str):
-    if len(text) <= TELEGRAM_MAX_CAPTION:
-        return text, ""
-    return text[:TELEGRAM_MAX_CAPTION], text[TELEGRAM_MAX_CAPTION:]
-
 def kb_pay():
     k = types.InlineKeyboardMarkup()
     k.add(types.InlineKeyboardButton(BUTTON_TEXT, url=BUTTON_URL))
     return k
+
+def split_caption(text: str):
+    if len(text) <= TELEGRAM_MAX_CAPTION:
+        return text, ""
+    return text[:TELEGRAM_MAX_CAPTION], text[TELEGRAM_MAX_CAPTION:]
 
 def send_text(chat_id: int, text: str, with_button: bool = True):
     try:
@@ -77,32 +77,34 @@ def send_photo_then_text(chat_id: int):
     # 3) только текст (фоллбек)
     send_text(chat_id, WELCOME_TEXT, with_button=True)
 
-# ====== HANDLERS ======
-@bot.message_handler(commands=["start"])
-def on_start(m: telebot.types.Message):
-    print(f"[update] /start from {m.from_user.id}", flush=True)
-    send_photo_then_text(m.chat.id)
-
-@bot.message_handler(func=lambda m: True)
-def on_any(m: telebot.types.Message):
-    print(f"[update] msg from {m.from_user.id}: {m.text!r}", flush=True)
-    try:
-        bot.reply_to(m, "✅ Bot is alive (webhook). Send /start")  # если не нужно — можно убрать эту строку
-    except Exception as e:
-        print(f"[send] reply error -> {m.chat.id}: {e}", flush=True)
-
-# ====== WEBHOOK ENDPOINT ======
+# ====== WEBHOOK: шлём напрямую, без хендлеров ======
 @app.post(WEBHOOK_PATH)
 def webhook_handler():
     raw = request.get_data(as_text=True)
     print(f"[raw] {raw}", flush=True)
 
-    # только прокидываем событие в TeleBot (без самостоятельных ответов)
     try:
-        upd = telebot.types.Update.de_json(raw)
-        bot.process_new_updates([upd])
+        data = request.get_json(silent=True) or {}
+        msg  = data.get("message") or data.get("edited_message")
+        if not msg:
+            return "ok", 200
+
+        chat_id = (msg.get("chat") or {}).get("id")
+        text    = (msg.get("text") or "").strip()
+
+        if not chat_id:
+            return "ok", 200
+
+        # Только на /start — присылаем фото+текст
+        if text.startswith("/start"):
+            send_photo_then_text(chat_id)
+
+        # Если хочешь отвечать на любое сообщение — раскомментируй:
+        # else:
+        #     send_text(chat_id, "✅ Bot is alive. Send /start")
+
     except Exception as e:
-        print(f"[webhook] process error: {e}", flush=True)
+        print(f"[webhook] parse/send error: {e}", flush=True)
 
     return "ok", 200
 
