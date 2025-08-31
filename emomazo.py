@@ -87,7 +87,7 @@ def on_start(m: telebot.types.Message):
 def on_any(m: telebot.types.Message):
     print(f"[update] msg from {m.from_user.id}: {m.text!r}", flush=True)
     try:
-        bot.reply_to(m, "✅ Bot is alive (webhook). Send /start")
+        bot.reply_to(m, "✅ Bot is alive (webhook). Send /start")  # если не нужно — можно убрать эту строку
     except Exception as e:
         print(f"[send] reply error -> {m.chat.id}: {e}", flush=True)
 
@@ -97,19 +97,7 @@ def webhook_handler():
     raw = request.get_data(as_text=True)
     print(f"[raw] {raw}", flush=True)
 
-    # быстрый ответ сразу из вебхука (на случай, если хендлеры не сработали)
-    try:
-        data = request.get_json(silent=True)
-        if isinstance(data, dict) and "message" in data:
-            chat_id = data["message"].get("chat", {}).get("id")
-            if chat_id:
-                bot.send_message(chat_id, "✅ Alive. Webhook received your message. Sending welcome…")
-                send_photo_then_text(chat_id)
-                print(f"[quick-reply] sent -> {chat_id}", flush=True)
-    except Exception as e:
-        print(f"[quick-reply] error: {e}", flush=True)
-
-    # затем пропускаем апдейт через TeleBot (для /start и т.д.)
+    # только прокидываем событие в TeleBot (без самостоятельных ответов)
     try:
         upd = telebot.types.Update.de_json(raw)
         bot.process_new_updates([upd])
