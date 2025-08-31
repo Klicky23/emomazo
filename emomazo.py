@@ -5,7 +5,7 @@ from telebot import types
 from flask import Flask, request
 
 # ===== НАСТРОЙКИ =====
-BOT_TOKEN   = "8248862308:AAFdLMHWYykXoEm4KR-T6GoVk9s2SfE_ZWs"
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
 BUTTON_URL  = "https://t.me/send?start=SBQ0-CFrzaHNZjOWIy"
 BUTTON_TEXT = "Pay CRYPTO in Telegram"
 WELCOME_TEXT = (
