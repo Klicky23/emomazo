@@ -9,15 +9,11 @@ BOT_TOKEN   = "8248862308:AAFdLMHWYykXoEm4KR-T6GoVk9s2SfE_ZWs"
 BUTTON_URL  = "https://t.me/send?start=SBQ0-CFrzaHNZjOWIy"
 BUTTON_TEXT = "Pay CRYPTO in Telegram"
 WELCOME_TEXT = (
-    "👋 Welcome my Dear Emotional Masochists!!\n\n"
-    "Other platforms have restrictions on the content that can be posted,\n\n" 
-    "so here you will find all my comics without censorship\n\n" 
-    "(Hard NTR, Humiliation, R*cePlay) as well as some comics that\n\n" \
-    "will not be posted anywhere except the Telegram group\n\n" \
-    "There is no censorship in the expressions I use, so that I can\n\n" \
-    "properly play on the strings of your masochistic souls)\n\n"
-    "P.S. Unfortunately, payment is currently only available in cryptocurrency\n\n" \
-    " Write to me in DM if you have any ideas on how to accept payment by card. Thank you."
+    "👋 Welcome my Dear Emotional Masochists!!😍\n\n"
+    "Other platforms have restrictions on the content that can be posted, 🤢 so here you will find all my comics without censorship\n\n" 
+    "🤤(Hard NTR, Humiliation, R*cePlay)🤤 as well as some comics that will not be posted anywhere except the Telegram group💎\n\n" \
+    "There is no censorship in the expressions I use, so that I can properly play on the strings of your masochistic souls)😏\n\n"
+    "P.S. Unfortunately, payment is currently only available in Crypto. Write to me in DM if you have any ideas on how to accept payment by card. Thank you."
 
 )
 
