@@ -16,6 +16,7 @@ WEBHOOK_URL  = PUBLIC_URL + WEBHOOK_PATH
 BUTTON_URL  = "https://t.me/send?start=SBQ0-CFrzaHNZjOWIy"
 BUTTON_TEXT = "Pay CRYPTO in Telegram"
 WELCOME_TEXT = (
+    "🔞NSFW🔞18+ ONLY!🔞\n\n"
     "👋 Welcome my Dear Emotional Masochists!!😍\n\n"
     "Other platforms have restrictions on the content that can be posted, 🤢 so here you will find all my comics without censorship\n\n"
     "🤤(Hard NTR, Humiliation, R*cePlay)🤤 as well as some comics that will not be posted anywhere except the Telegram group💎\n\n"
