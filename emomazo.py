@@ -15,6 +15,8 @@ WEBHOOK_URL  = PUBLIC_URL + WEBHOOK_PATH
 # ====== CONTENT ======
 BUTTON_URL  = "https://t.me/send?start=SBQ0-CFrzaHNZjOWIy"
 BUTTON_TEXT = "Pay CRYPTO in Telegram"
+BUTTON_CONTACT_URL  = "https://t.me/serezra"
+BUTTON_CONTACT_TEXT = "Contact Me"
 WELCOME_TEXT = (
     "🔞NSFW🔞18+ ONLY!🔞\n\n"
     "👋 Welcome my Dear Emotional Masochists!!😍\n\n"
@@ -34,7 +36,9 @@ app = Flask(__name__)
 # ====== HELPERS ======
 def kb_pay():
     k = types.InlineKeyboardMarkup()
-    k.add(types.InlineKeyboardButton(BUTTON_TEXT, url=BUTTON_URL))
+    btn_pay = types.InlineKeyboardButton(BUTTON_TEXT, url=BUTTON_URL)
+    btn_contact = types.InlineKeyboardButton(BUTTON_CONTACT_TEXT, url=BUTTON_CONTACT_URL)
+    k.row(btn_pay, btn_contact)
     return k
 
 def split_caption(text: str):
